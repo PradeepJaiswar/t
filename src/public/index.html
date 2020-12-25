@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+<h1 id="userInfo"></h1>
+
+<div id="future"></div>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    var userid = Math.floor(Math.random() * Math.floor(1000));
+    var userInfo = document.getElementById('future');
+    userInfo.innerHTML = 'Hello i am user with userid :: ' + userid;
+    var socket = io.connect('http://localhost:3000/?userId='+userid);
+    socket.on('connect', function(data) {
+        socket.emit('join', userid);
+    });
+
+    socket.on('message', function(data) {
+        var div = document.getElementById('future');
+        div.innerHTML += '<p>' + data + '</p>';
+    });
+
+</script>
+
+</body>
+</html>
